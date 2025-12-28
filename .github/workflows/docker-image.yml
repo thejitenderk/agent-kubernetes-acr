@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build image on ACR
+      uses: Azure/acr-build@v1
+      with:
+        service_principal: bb22ce0c-d9cc-4ed3-994d-3350cda08b93
+        service_principal_password: dTl8Q~eIXhP7YbD.a.vAsmCCjKb0phsCnQz3RaPy
+        tenant: 169376df-fd6a-473c-bb8c-1e4265a48456
+        registry: publicjkacr
+        repository: myapp
+        folder: .
+        dockerfile: Dockerfile
+        tag: latest
+
+              
