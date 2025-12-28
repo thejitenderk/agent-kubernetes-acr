@@ -5,29 +5,31 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-permissions:
-  id-token: write
-  contents: read
   
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: Azure Login
-      uses: Azure/login@v2.3.0
+
+    - uses: actions/docker/login@v2
       with:
-        creds: |
-          {
-          "clientId": "bb22ce0c-d9cc-4ed3-994d-3350cda08b93",
-          "clientSecret": "dTl8Q~eIXhP7YbD.a.vAsmCCjKb0phsCnQz3RaPy",
-          "subscriptionId": "0dbc7906-293b-41aa-916d-9f62c7c48126",
-          "tenantId": "169376df-fd6a-473c-bb8c-1e4265a48456"
-           }
+        registry: publicjkacr.azurecr.io
+        username: publicjkacr
+        password: iM9vF8N9Vk3Z2+lcu6j8hpfYtCACl+zZqfUL2LdEYD+ACRBmsaMe
+  
+    # - name: Azure Login
+    #   uses: Azure/login@v2.3.0
+    #   with:
+    #     creds: |
+    #       {
+    #       "clientId": "bb22ce0c-d9cc-4ed3-994d-3350cda08b93",
+    #       "clientSecret": "dTl8Q~eIXhP7YbD.a.vAsmCCjKb0phsCnQz3RaPy",
+    #       "subscriptionId": "0dbc7906-293b-41aa-916d-9f62c7c48126",
+    #       "tenantId": "169376df-fd6a-473c-bb8c-1e4265a48456"
+    #        }
 
 
 
