@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:
-  id-token: write
-  contents: read
 
 jobs:
 
@@ -18,17 +15,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Build image on ACR
-      uses: Azure/acr-build@v1
+    - name: Azure Login
+      uses: Azure/login@v2.3.0
       with:
-        service_principal: bb22ce0c-d9cc-4ed3-994d-3350cda08b93
-        service_principal_password: dTl8Q~eIXhP7YbD.a.vAsmCCjKb0phsCnQz3RaPy
-        tenant: 169376df-fd6a-473c-bb8c-1e4265a48456
-        registry: publicjkacr
-        repository: myapp
-        folder: .
-        dockerfile: Dockerfile
-        tag: latest
+        creds: dTl8Q~eIXhP7YbD.a.vAsmCCjKb0phsCnQz3RaPy
+        client-id: bb22ce0c-d9cc-4ed3-994d-3350cda08b93
+        tenant-id: 169376df-fd6a-473c-bb8c-1e4265a48456
+        subscription-id: 0dbc7906-293b-41aa-916d-9f62c7c48126
 
-              
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        file: Dockerfile
+        push: true
+        tags: publicjkacr.azurecr.io/myapp:latest
